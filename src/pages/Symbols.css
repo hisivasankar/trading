@@ -1,0 +1,26 @@
+.group {
+
+}
+
+.group-header > * {
+  display: inline-block;
+  margin-right: .5rem;
+}
+
+.symbols {
+
+}
+
+.symbol {
+  display: inline-block;
+  padding: .75rem;
+  margin: .25rem;
+  border: 1px solid black;
+}
+
+.symbol.selected {
+  background: green;
+}
+.symbol.selected  span{
+  color: white;
+}
