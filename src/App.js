@@ -14,8 +14,8 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="header">
-        <Router>
+      <Router>
+        <header className="header">
           <nav>
             <ul>
               <li>
@@ -29,28 +29,23 @@ function App() {
               </li>
             </ul>
           </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
+        </header>
+        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <div className="container">
-
-            <Switch>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/risk">
-                <RiskMgmt />
-              </Route>
-              <Route path="/">
-                <Symbols />
-              </Route>
-            </Switch>
-
-          </div>
-
-        </Router>
-
-      </header>
+        <div className="container">
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/risk">
+              <RiskMgmt />
+            </Route>
+            <Route path="/">
+              <Symbols />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }

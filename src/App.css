@@ -4,10 +4,16 @@
   height: 100vh;
 }
 
-.header nav{
-  margin-top: .5rem;
+
+header {
   background-color: #282c34;
   padding: .5rem;
+}
+
+.header nav{
+  width: 85%;
+  margin: auto;
+  background-color: #282c34;
 }
 
 .header ul {
