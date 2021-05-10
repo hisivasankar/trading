@@ -1,20 +1,23 @@
 import NIFTY50 from "../res/nifty50.json";
 import BANKNIFTY from "../res/banknifty.json";
+import NIFTYMIDCAP50 from "../res/nifty-midcap50.json";
 
 import "./Symbols.css";
 
 import { useState } from "react";
 import TextField from '@material-ui/core/TextField';
 
-const NIFTY50MAP = NIFTY50.reduce((acc, symbol) => {
-  acc[symbol] = 1;
-  return acc;
-}, {}) ;
+const generateMap = (tokens) => {
+  tokens = tokens || [];
+  return tokens.reduce((acc, symbol) => {
+    acc[symbol] = 1;
+    return acc;
+  }, {}) ;
+}
 
-const BANKNIFTYMAP = BANKNIFTY.reduce((acc, symbol) => {
-  acc[symbol] = 1;
-  return acc;
-}, {}) ;
+const NIFTY50MAP = generateMap(NIFTY50);
+const NIFTYMIDCAP50MAP = generateMap(NIFTYMIDCAP50);
+const BANKNIFTYMAP = generateMap(BANKNIFTY);
 
 
 const Symbol = (props) => {
@@ -91,8 +94,9 @@ const Symbols = () => {
 
       <div>
         {unknownSymbolsContent}
-        <Group key="nifty50" groupName="Nifty 50" tokens={NIFTY50} found={knownSymbols}/>
         <Group key="banknifty"  groupName="Bank Nifty" tokens={BANKNIFTY} found={knownSymbols}/>
+        <Group key="nifty50" groupName="Nifty 50" tokens={NIFTY50} found={knownSymbols}/>
+        <Group key="banknifty-midcap-50"  groupName="Nifty MidCap 50" tokens={NIFTYMIDCAP50} found={knownSymbols}/>
       </div>
     </div>
   );
