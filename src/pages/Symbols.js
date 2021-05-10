@@ -70,7 +70,6 @@ const INDICES = {
 
 const isKnownStock = (symbol) => {
   for(let index in INDICES) {
-    console.log("Find: ", symbol, "Index: ", index);
     const { map } = INDICES[index];
     if (!!map[symbol]) {
       return true;
@@ -126,9 +125,6 @@ const Symbols = () => {
     unknownSymbolsContent = null;
   }
 
-  console.log("unknown: ", unknownSymbols, "Len: ", unknownSymbols.length)
-  console.log ( "unknown content: ", unknownSymbolsContent)
-
   const groups = [];
 
   for (let index of Object.keys(INDICES)) {
@@ -147,9 +143,8 @@ const Symbols = () => {
         onChange={(event) => {
           let text = (event.target.value || "").trim().toUpperCase();
           text = text.replace(/\s/gi, "");
-          if (text) {
+          if (!!text) {
             const currentSymbols = text.split(",");
-            console.log("Text: ", text, "sym: ", currentSymbols);
             setStocks(currentSymbols);
           } else {
             setStocks([]);
