@@ -90,10 +90,11 @@ const Symbol = (props) => {
 const Group = (props) => {
   let { groupName, tokens, found = {}} = props;
   tokens = tokens || [];
+  const symbolCount = `(${tokens.length})`;
   const symbols = tokens.map((token, i) => <Symbol key={`key-${i}`} name={token} selected={!!found[token]}/>)
   return <div className='group'>
     <div className="group-header">
-    <h2 className="group-title">{groupName}</h2>
+    <h2 className="group-title">{groupName}<span>{symbolCount}</span></h2>
     <button onClick={() => {
       alert(tokens.join(", "));
     }}>Copy</button>
