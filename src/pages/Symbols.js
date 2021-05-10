@@ -1,11 +1,16 @@
-import NIFTY50 from "../res/nifty50.json";
-import BANKNIFTY from "../res/banknifty.json";
-import NIFTYMIDCAP50 from "../res/nifty-midcap50.json";
-
-import "./Symbols.css";
+import NIFTY_50 from "../res/nifty50.json";
+import NIFTY_BANK from "../res/banknifty.json";
+import NIFTY_MIDCAP_50 from "../res/nifty-midcap50.json";
+import NIFTY_AUTO from "../res/nifty-auto.json"
+import NIFTY_FINSERV from "../res/nifty-fin-serv.json";
+import NIFTY_FMCG from "../res/nifty-fmcg.json";
+import NIFTY_IT from "../res/nifty-it.json";
+import NIFTY_PHARMA from "../res/nifty-pharma.json";
+import NIFTY_PSU from "../res/nifty-psu.json";
 
 import { useState } from "react";
 import TextField from '@material-ui/core/TextField';
+import "./Symbols.css";
 
 const generateMap = (tokens) => {
   tokens = tokens || [];
@@ -15,10 +20,64 @@ const generateMap = (tokens) => {
   }, {}) ;
 }
 
-const NIFTY50MAP = generateMap(NIFTY50);
-const NIFTYMIDCAP50MAP = generateMap(NIFTYMIDCAP50);
-const BANKNIFTYMAP = generateMap(BANKNIFTY);
+const INDICES = {
+  "NIFTY_BANK": {
+    title: "Bank Nifty",
+    symbols: NIFTY_BANK,
+    map: generateMap(NIFTY_BANK)
+  },
+  "NIFTY_50": {
+    title: "Nifty 50",
+    symbols: NIFTY_50,
+    map: generateMap(NIFTY_50)
+  },
+  "NIFTY_MIDCAP_50": {
+    title: "Nifty Midcap 50",
+    symbols: NIFTY_MIDCAP_50,
+    map: generateMap(NIFTY_MIDCAP_50)
+  },
+  "NIFTY_AUTO": {
+    title: "Nifty Auto",
+    symbols: NIFTY_AUTO,
+    map: generateMap(NIFTY_AUTO)
+  },
+  "NIFTY_FINSERV": {
+    title: "Nifty Financial Service",
+    symbols: NIFTY_FINSERV,
+    map: generateMap(NIFTY_FINSERV)
+  },
+  "NIFTY_IT": {
+    title: "Nifty IT",
+    symbols: NIFTY_IT,
+    map: generateMap(NIFTY_IT)
+  },
+  "NIFTY_PHARMA": {
+    title: "Nifty Pharma",
+    symbols: NIFTY_PHARMA,
+    map: generateMap(NIFTY_PHARMA)
+  },
+  "NIFTY_PSU": {
+    title: "Nifty PSU Bank",
+    symbols: NIFTY_PSU,
+    map: generateMap(NIFTY_PSU)
+  },
+  "NIFTY_FMCG": {
+    title: "Nifty FMCG",
+    symbols: NIFTY_FMCG,
+    map: generateMap(NIFTY_FMCG)
+  },
+};
 
+const isKnownStock = (symbol) => {
+  for(let index in INDICES) {
+    console.log("Find: ", symbol, "Index: ", index);
+    const { map } = INDICES[index];
+    if (!!map[symbol]) {
+      return true;
+    }
+  }
+  return false;
+};
 
 const Symbol = (props) => {
   const { name, selected } = props;
@@ -47,12 +106,11 @@ const Symbols = () => {
   const [stocks, setStocks] = useState([]);
   const unknownSymbols = [];
   let knownSymbols = {};
-  console.log("Map", NIFTY50MAP);
   stocks.forEach(stock => {
     console.log("Stock: ", stock);
-    console.log( "Found? : ", !!NIFTY50MAP[stock]);
-    const isknownStock = !!NIFTY50MAP[stock] || !!BANKNIFTYMAP[stock];
-     if (isknownStock) {
+    const foundSymbol = isKnownStock(stock);
+    console.log( "Found? : ", foundSymbol);
+     if (foundSymbol) {
       knownSymbols[stock] = 1;
      } else {
       unknownSymbols.push(stock);
@@ -62,14 +120,20 @@ const Symbols = () => {
   let unknownSymbolsContent = null;
 
   if(unknownSymbols.length > 0) {
-    unknownSymbolsContent = <Group key="unknownsymbols" groupName="Unknown Symbols" tokens={unknownSymbols}/>
+    unknownSymbolsContent = <Group key="unknown-symbols" groupName="Unknown Symbols" tokens={unknownSymbols}/>
   } else {
     unknownSymbolsContent = null;
   }
 
-
   console.log("unknown: ", unknownSymbols, "Len: ", unknownSymbols.length)
   console.log ( "unknown content: ", unknownSymbolsContent)
+
+  const groups = [];
+
+  for (let index of Object.keys(INDICES)) {
+    const { title, symbols } = INDICES[index];
+    groups.push(<Group key={index}  groupName={title} tokens={symbols} found={knownSymbols}/>);
+  }
 
   return (
     <div>
@@ -94,9 +158,7 @@ const Symbols = () => {
 
       <div>
         {unknownSymbolsContent}
-        <Group key="banknifty"  groupName="Bank Nifty" tokens={BANKNIFTY} found={knownSymbols}/>
-        <Group key="nifty50" groupName="Nifty 50" tokens={NIFTY50} found={knownSymbols}/>
-        <Group key="banknifty-midcap-50"  groupName="Nifty MidCap 50" tokens={NIFTYMIDCAP50} found={knownSymbols}/>
+        {groups}
       </div>
     </div>
   );
