@@ -74,6 +74,14 @@ class RiskPerTrade extends React.Component {
           className="risk-per-trade-item"
         />
 
+      <TextField
+          id="risk-amount"
+          disabled
+          label="Total risked amount"
+          value={riskAmount}
+          className="risk-per-trade-item"
+        />
+
         <TextField
           id="stoploss"
           required
